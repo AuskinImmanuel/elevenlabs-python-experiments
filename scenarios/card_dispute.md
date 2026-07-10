@@ -1,4 +1,4 @@
-# Scenario — card dispute
+# Scenario: card dispute
 
 A consumer-card cardholder calls in to dispute a transaction they don't recognise. The agent needs to identify them, retrieve the transaction, confirm the dispute reason, and either file the dispute or transfer to a human if it falls outside policy.
 
@@ -20,7 +20,7 @@ If either fails twice, transfer to fraud-team queue.
 4. Ask for the dispute reason from a fixed set: not authorised, wrong amount, duplicate charge, item not received, item not as described, other.
 5. If reason is "other", transfer to a human.
 6. Otherwise call `file_dispute` with the transaction_id and reason.
-7. Confirm the dispute reference number and expected resolution window (typically 7–10 business days).
+7. Confirm the dispute reference number and expected resolution window (typically 7 to 10 business days).
 
 ## Tone
 

@@ -1,31 +1,29 @@
 # elevenlabs-python-experiments
 
-A working sandbox for the parts of voice-agent work I don't usually touch myself: Python scripting against the ElevenLabs SDK, Twilio telephony, and basic third-party integrations.
+A working sandbox: Python scripts against the ElevenLabs SDK, one small experiment per file.
 
-I'm Auskin Immanuel. Day job is voice-agent design — prompts, scopes, evals — and at that layer I'm fluent. The Python that wires it all together is usually written by engineering. This repo is me closing that gap, by hand, one small script at a time.
+I'm Auskin Immanuel. Day job is voice-agent design. My production output is prompts, specs, and evals; this repo is the scripting layer that sits under and around that work. Create an agent from a prompt file, patch its prompt, pull a transcript and score it. The calls my specs describe, run by my own hand.
 
 ## Why this exists
 
-Forward-deployed voice work doesn't stop at the prompt. It runs through Python scripts that talk to the platform API, FastAPI services that bridge to a phone number, tool-call webhooks that write to a CRM, eval scripts that pull a transcript and score it. None of that is hard. It's just hours-in-the-editor I haven't put in yet. So I'm putting them in.
+A spec that says "patch the agent's prompt, keep the rest of the config" is stronger when I've run that exact call and watched what came back. Same for evals: before I trust a scoring pipeline, I want to have pulled a raw transcript and seen its actual shape. Each script here is one of those calls, done end to end, with the gotchas written down as I hit them.
 
-Sandbox quality, not production quality. The point is to *do* the integration, learn the gotchas, and have a runnable thing to point at.
+Sandbox quality on purpose. No shared helpers, no abstractions, every file readable top to bottom in one sitting.
 
 ## What's here
 
-Each numbered file is one self-contained experiment. Run them in order or in any order; they don't share state.
+Each numbered file is one self-contained experiment. They don't share state.
 
-| # | File | What it does |
-|---|---|---|
-| 01 | [01_list_voices.py](01_list_voices.py) | List voices in the workspace via the ElevenLabs Python SDK. The smoke test that proves env + key + SDK path all work. |
-| 02 | [02_create_agent.py](02_create_agent.py) | Create an ElevenAgent programmatically from a system prompt file. |
-| 03 | [03_update_agent_prompt.py](03_update_agent_prompt.py) | Update an existing agent's prompt without recreating it. |
-| 04 | [04_outbound_call.py](04_outbound_call.py) | Place an outbound call via the Twilio bridge to a given number. |
-| 05 | [05_inbound_webhook/](05_inbound_webhook/) | FastAPI service. Twilio number → webhook → ElevenAgent. |
-| 06 | [06_tool_call_hubspot/](06_tool_call_hubspot/) | Agent captures contact info during a call → tool webhook → HubSpot contact written. |
-| 07 | [07_transcript_eval.py](07_transcript_eval.py) | Fetch a finished call's transcript and score it against a rubric. |
-| 08 | [08_multi_llm_compare.py](08_multi_llm_compare.py) | Same prompt, different LLM backends. Log latency + output side-by-side. |
+| # | File | Status | What it does |
+|---|---|---|---|
+| 01 | [01_list_voices.py](01_list_voices.py) | working | List voices in the workspace. The smoke test that proves env + key + SDK path all work. |
+| 02 | [02_create_agent.py](02_create_agent.py) | working | Create an agent from a system prompt file, print the new agent id. |
+| 03 | [03_update_agent_prompt.py](03_update_agent_prompt.py) | working | Patch an existing agent's prompt without recreating it or touching the rest of its config. |
+| 04 | [04_outbound_call.py](04_outbound_call.py) | planned | Place an outbound call via the Twilio bridge to a given number. |
+| 05 | [05_transcript_eval.py](05_transcript_eval.py) | working | Fetch a finished call's transcript and score it against a deterministic rubric. Pure Python, no LLM judge. |
+| 06 | [06_multi_llm_compare.py](06_multi_llm_compare.py) | planned | Same prompt, different LLM backends. Log latency and output side by side. |
 
-[scenarios/](scenarios/) holds the agent prompts I'm experimenting against — financial-services flows (card dispute, balance check). The prompt thinking behind them lives in my [voice-agent-prompting](https://github.com/AuskinImmanuel/voice-agent-prompting) repo.
+[scenarios/](scenarios/) holds the agent prompts I'm experimenting against: financial-services flows (card dispute, balance check). The prompt thinking behind them lives in my [voice-agent-prompting](https://github.com/AuskinImmanuel/voice-agent-prompting) repo.
 
 [notes/learnings.md](notes/learnings.md) is the running log: what surprised me, what broke, what I want to ask the team about.
 
@@ -39,13 +37,13 @@ cp .env.example .env   # fill in your keys
 python 01_list_voices.py
 ```
 
-You need: an ElevenLabs API key, a Twilio account (trial is fine) with a number, and a HubSpot free developer account for `06_*`.
+You need an ElevenLabs API key. Twilio only matters once 04 lands, and the LLM provider keys only matter for 06.
 
 ## What this isn't
 
 - Not production code. No retry logic, no test suite, no observability.
 - Not a polished demo. There's no Loom, no architecture diagram.
-- Not healthcare. I have plenty of healthcare depth at work; this repo is for the surface I'm new to.
+- Not healthcare. I have plenty of healthcare depth at work; here I run financial-services scenarios so the two never mix.
 
 ## Reach me
 

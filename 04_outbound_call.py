@@ -5,7 +5,7 @@ Status: stub.
 Plan:
   - Take an agent_id and a destination phone number
   - Call the outbound endpoint (ElevenLabs initiates, Twilio carries)
-  - Print the conversation_id so 07_transcript_eval.py can pick it up later
+  - Print the conversation_id so 05_transcript_eval.py can pick it up later
 """
 
 

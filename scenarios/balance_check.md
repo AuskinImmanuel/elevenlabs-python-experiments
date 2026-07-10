@@ -1,4 +1,4 @@
-# Scenario — balance check
+# Scenario: balance check
 
 A cardholder calls in to check the available balance on their account. Quick path, identity-gated.
 
@@ -7,7 +7,7 @@ A cardholder calls in to check the available balance on their account. Quick pat
 - Last 4 digits of the card
 - Date of birth or registered mobile
 
-Failure twice → transfer to fraud-team queue.
+Failure twice: transfer to fraud-team queue.
 
 ## Balance flow
 
